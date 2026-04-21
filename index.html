@@ -4,24 +4,153 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Candriyoe. - Web Developer & Digital Solutions</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Candriyoe – Professional Web Developer with 4+ years of experience. Custom websites, web apps, e-commerce & UI/UX design at the most affordable prices. Starting from ₹350.">
+<meta name="keywords" content="web developer, website design, affordable websites, React developer, Node.js, full stack developer, web development India, cheap websites, Candriyoe">
+<meta name="author" content="Candriyoe">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#00e68a">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Candriyoe. – Web Developer & Digital Solutions">
+<meta property="og:description" content="Professional web development at the lowest prices. 4+ years experience, 50+ projects. Starting from ₹350.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://candriyoe.dev">
+<meta property="og:image" content="https://candriyoe.dev/og-image.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Candriyoe. – Web Developer & Digital Solutions">
+<meta name="twitter:description" content="Professional web development at the lowest prices. Starting from ₹350.">
+
+<!-- Canonical -->
+<link rel="canonical" href="https://candriyoe.dev">
+
+<!-- JSON-LD Structured Data -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Candriyoe",
+  "jobTitle": "Web Developer",
+  "description": "Professional web developer with 4+ years of experience specializing in modern, responsive websites and web applications.",
+  "url": "https://candriyoe.dev",
+  "sameAs": ["https://discord.gg/HfruHk4g"]
+}
+</script>
+
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #0a0a0a; color: #fff; font-family: 'Inter', 'Segoe UI', sans-serif; scroll-behavior: smooth; }
+  /* ─── RESET & BASE ─── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: #0a0a0a; color: #fff; font-family: 'Inter', 'Segoe UI', sans-serif; cursor: none; overflow-x: hidden; }
   a { text-decoration: none; color: inherit; }
 
-  /* NAV */
-  nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,10,0.9); backdrop-filter: blur(10px); }
-  .logo { font-size: 22px; font-weight: 700; cursor: pointer; transition: color 0.25s; color: #fff; display: inline-block; }
+  /* ─── CUSTOM CURSOR ─── */
+  #cursor-outer {
+    position: fixed; top: 0; left: 0; width: 36px; height: 36px;
+    border: 2px solid #00e68a; border-radius: 50%; pointer-events: none;
+    z-index: 99999; transform: translate(-50%, -50%);
+    transition: transform 0.12s ease, width 0.2s, height 0.2s, border-color 0.2s, background 0.2s;
+    mix-blend-mode: normal;
+  }
+  #cursor-inner {
+    position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+    background: #00e68a; border-radius: 50%; pointer-events: none;
+    z-index: 99999; transform: translate(-50%, -50%);
+    transition: transform 0.05s ease, width 0.15s, height 0.15s, background 0.2s;
+  }
+  #cursor-trail {
+    position: fixed; top: 0; left: 0; width: 16px; height: 16px;
+    background: rgba(0,230,138,0.15); border-radius: 50%; pointer-events: none;
+    z-index: 99998; transform: translate(-50%, -50%);
+    transition: transform 0.25s ease;
+  }
+  body:has(a:hover) #cursor-outer,
+  body:has(button:hover) #cursor-outer { width: 52px; height: 52px; background: rgba(0,230,138,0.08); }
+  body:has(a:hover) #cursor-inner,
+  body:has(button:hover) #cursor-inner { width: 12px; height: 12px; background: #fff; }
+
+  /* ─── LOADING SCREEN ─── */
+  #loader {
+    position: fixed; inset: 0; background: #000; z-index: 99990;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 28px; transition: opacity 0.7s ease, visibility 0.7s ease;
+  }
+  #loader.hidden { opacity: 0; visibility: hidden; }
+
+  .loader-logo {
+    font-size: 42px; font-weight: 800; letter-spacing: -1px; color: #fff;
+    animation: logoPulse 1.4s ease-in-out infinite;
+  }
+  .loader-logo .dot { color: #00e68a; }
+  @keyframes logoPulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+  .loader-tagline { font-size: 14px; color: #555; letter-spacing: 3px; text-transform: uppercase; }
+
+  .loader-bar-wrap {
+    width: 320px; background: #111; border-radius: 100px; height: 4px;
+    overflow: hidden; border: 1px solid #1e1e1e;
+  }
+  .loader-bar {
+    height: 100%; width: 0%; background: linear-gradient(90deg, #00e68a, #00ffaa);
+    border-radius: 100px; transition: width 0.05s linear;
+    box-shadow: 0 0 12px #00e68a88;
+  }
+  .loader-percent { font-size: 13px; color: #00e68a; font-weight: 700; letter-spacing: 1px; font-variant-numeric: tabular-nums; }
+
+  .loader-particles {
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  }
+  .lp { position: absolute; width: 2px; height: 2px; background: #00e68a; border-radius: 50%; animation: floatUp linear infinite; opacity: 0; }
+  @keyframes floatUp { 0%{transform:translateY(0) scale(1);opacity:0.8} 100%{transform:translateY(-100vh) scale(0.2);opacity:0} }
+
+  /* ─── FLOATING DISCORD SERVER BUTTON ─── */
+  #discord-server-float {
+    position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+    display: flex; align-items: center; gap: 10px;
+    background: #000; border: 2px solid #c0392b;
+    color: #fff; font-weight: 800; font-size: 14px; letter-spacing: 0.5px;
+    padding: 12px 20px; border-radius: 14px;
+    box-shadow: 0 0 20px rgba(192,57,43,0.4), 0 4px 20px rgba(0,0,0,0.5);
+    cursor: none; transition: all 0.25s ease;
+    animation: floatBounce 3s ease-in-out infinite;
+    text-transform: uppercase;
+  }
+  #discord-server-float:hover {
+    background: #c0392b; border-color: #e74c3c;
+    box-shadow: 0 0 32px rgba(231,76,60,0.6), 0 8px 30px rgba(0,0,0,0.6);
+    transform: translateY(-3px) scale(1.03);
+  }
+  #discord-server-float .dsf-icon { width: 20px; height: 20px; fill: #fff; flex-shrink: 0; }
+  #discord-server-float .dsf-label { color: #c0392b; font-size: 10px; display: block; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; line-height: 1; }
+  #discord-server-float .dsf-name { color: #fff; font-size: 15px; font-weight: 800; display: block; line-height: 1.3; }
+  .dsf-enquiry { font-size: 10px; color: #888; font-weight: 400; text-transform: none; letter-spacing: 0; margin-top: 1px; display: block; }
+  @keyframes floatBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+  #discord-server-float:hover { animation: none; }
+
+  /* pulse ring */
+  #discord-server-float::before {
+    content:''; position:absolute; inset:-6px; border-radius:18px;
+    border: 2px solid rgba(192,57,43,0.4);
+    animation: pulseRing 2s ease-out infinite;
+  }
+  @keyframes pulseRing { 0%{transform:scale(1);opacity:0.8} 100%{transform:scale(1.15);opacity:0} }
+
+  /* ─── NAV ─── */
+  nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(10,10,10,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid #111; }
+  .logo { font-size: 22px; font-weight: 700; cursor: none; transition: color 0.25s; color: #fff; display: inline-block; }
   .logo .dot { color: #00e68a; transition: color 0.25s; }
   .logo:hover { color: #00e68a; }
   .logo:hover .dot { color: #fff; }
   .nav-links { display: flex; align-items: center; gap: 36px; }
-  .nav-links a { font-size: 15px; color: #ccc; transition: color 0.2s; }
+  .nav-links a { font-size: 15px; color: #ccc; transition: color 0.2s; cursor: none; }
   .nav-links a:hover { color: #fff; }
-  .btn-discord-nav { background: #00e68a; color: #000 !important; font-weight: 700; padding: 10px 20px; border-radius: 8px; font-size: 15px; transition: background 0.2s; display: flex; align-items: center; gap: 8px; }
+  .btn-discord-nav { background: #00e68a; color: #000 !important; font-weight: 700; padding: 10px 20px; border-radius: 8px; font-size: 15px; transition: background 0.2s; display: flex; align-items: center; gap: 8px; cursor: none; }
   .btn-discord-nav:hover { background: #00cc7a; }
 
-  /* HERO */
+  /* ─── HERO ─── */
   #hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 100px 20px 60px; position: relative; overflow: hidden; }
   .hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
   .hero-content { position: relative; z-index: 1; }
@@ -32,38 +161,38 @@
   .hero-desc { font-size: 16px; color: #aaa; margin-bottom: 16px; }
   .hero-exp-badge { display: inline-flex; align-items: center; gap: 8px; background: #1a2e20; border: 1px solid #00e68a44; color: #00e68a; padding: 7px 20px; border-radius: 30px; font-size: 13px; font-weight: 600; margin-bottom: 34px; }
   .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-  .btn-primary { background: #00e68a; color: #000; font-weight: 700; padding: 16px 32px; border-radius: 10px; font-size: 16px; display: flex; align-items: center; gap: 10px; transition: background 0.2s; }
+  .btn-primary { background: #00e68a; color: #000; font-weight: 700; padding: 16px 32px; border-radius: 10px; font-size: 16px; display: flex; align-items: center; gap: 10px; transition: background 0.2s; cursor: none; }
   .btn-primary:hover { background: #00cc7a; }
-  .btn-outline { border: 1.5px solid #555; color: #fff; padding: 16px 32px; border-radius: 10px; font-size: 16px; display: flex; align-items: center; gap: 10px; transition: border-color 0.2s; }
+  .btn-outline { border: 1.5px solid #555; color: #fff; padding: 16px 32px; border-radius: 10px; font-size: 16px; display: flex; align-items: center; gap: 10px; transition: border-color 0.2s; cursor: none; }
   .btn-outline:hover { border-color: #888; }
   .hero-discord-note { margin-top: 32px; font-size: 14px; color: #666; display: flex; align-items: center; justify-content: center; gap: 8px; }
   .hero-discord-note span { color: #00e68a; font-weight: 600; }
 
-  /* STATS BAR */
+  /* ─── STATS BAR ─── */
   .stats-bar { background: #111; border-top: 1px solid #1e1e1e; border-bottom: 1px solid #1e1e1e; padding: 36px 60px; display: flex; justify-content: center; gap: 80px; flex-wrap: wrap; }
   .stat-item { text-align: center; }
   .stat-num { font-size: 38px; font-weight: 800; color: #00e68a; line-height: 1; }
   .stat-label { font-size: 13px; color: #777; margin-top: 6px; }
 
-  /* SECTIONS */
+  /* ─── SECTIONS ─── */
   section { padding: 100px 60px; }
   .section-title { font-size: clamp(36px, 5vw, 54px); font-weight: 800; text-align: center; margin-bottom: 16px; }
   .section-title span { color: #00e68a; }
   .section-sub { text-align: center; color: #888; font-size: 16px; margin-bottom: 60px; }
 
-  /* ABOUT */
+  /* ─── ABOUT ─── */
   #about { background: #0a0a0a; }
   .about-desc { max-width: 680px; margin: 0 auto 60px; text-align: center; color: #aaa; font-size: 17px; line-height: 1.8; }
   .skills-title { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 40px; }
   .skills-title span { color: #00e68a; }
   .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; max-width: 900px; margin: 0 auto; }
-  .skill-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 32px 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; transition: border-color 0.2s; cursor: default; }
+  .skill-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 32px 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 16px; transition: border-color 0.2s; cursor: none; }
   .skill-card:hover { border-color: #00e68a; }
   .skill-icon { background: #1a2e20; border-radius: 10px; padding: 12px; display: flex; align-items: center; justify-content: center; }
   .skill-icon svg { width: 28px; height: 28px; stroke: #00e68a; fill: none; }
   .skill-name { font-size: 17px; font-weight: 600; }
 
-  /* SERVICES */
+  /* ─── SERVICES ─── */
   #services { background: #080808; }
   .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
   .service-card { background: #111; border: 1px solid #222; border-radius: 16px; padding: 36px 30px; transition: border-color 0.2s; }
@@ -73,7 +202,7 @@
   .service-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
   .service-card p { color: #888; font-size: 15px; line-height: 1.7; }
 
-  /* PRICING */
+  /* ─── PRICING ─── */
   #pricing { background: #0a0a0a; }
   .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; max-width: 1000px; margin: 0 auto; }
   .price-card { background: #111; border: 1px solid #222; border-radius: 20px; padding: 40px 30px; text-align: center; transition: border-color 0.2s, transform 0.2s; position: relative; }
@@ -88,14 +217,14 @@
   .price-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #aaa; padding: 9px 0; border-bottom: 1px solid #1a1a1a; }
   .price-features li:last-child { border-bottom: none; }
   .price-features li svg { stroke: #00e68a; fill: none; flex-shrink: 0; width: 15px; height: 15px; }
-  .btn-price { display: block; width: 100%; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 700; text-align: center; transition: all 0.2s; border: 1.5px solid #333; color: #fff; cursor: pointer; }
+  .btn-price { display: block; width: 100%; padding: 14px; border-radius: 10px; font-size: 15px; font-weight: 700; text-align: center; transition: all 0.2s; border: 1.5px solid #333; color: #fff; cursor: none; background: transparent; }
   .btn-price:hover { border-color: #00e68a; color: #00e68a; }
   .price-card.featured .btn-price { background: #00e68a; color: #000; border-color: #00e68a; }
   .price-card.featured .btn-price:hover { background: #00cc7a; }
   .affordable-note { text-align: center; margin-top: 44px; }
   .affordable-note p { display: inline-flex; align-items: center; gap: 10px; background: #1a2e20; border: 1px solid #00e68a33; color: #00e68a; padding: 12px 28px; border-radius: 30px; font-size: 14px; font-weight: 600; }
 
-  /* CONTACT */
+  /* ─── CONTACT ─── */
   #contact { background: #080808; }
   .contact-card { max-width: 700px; margin: 0 auto; background: #111; border: 1px solid #222; border-radius: 20px; padding: 60px 40px; text-align: center; }
   .discord-icon-big { width: 84px; height: 84px; background: #1a2e20; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
@@ -104,17 +233,17 @@
   .discord-handle-row { color: #00e68a; font-size: 26px; font-weight: 800; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; gap: 10px; }
   .discord-handle-row svg { fill: #00e68a; width: 24px; height: 24px; }
   .contact-card > p { color: #888; font-size: 15px; line-height: 1.7; }
-  .btn-contact { display: inline-flex; align-items: center; gap: 10px; background: #00e68a; color: #000; font-weight: 700; padding: 14px 32px; border-radius: 10px; font-size: 15px; margin-top: 28px; transition: background 0.2s; }
+  .btn-contact { display: inline-flex; align-items: center; gap: 10px; background: #00e68a; color: #000; font-weight: 700; padding: 14px 32px; border-radius: 10px; font-size: 15px; margin-top: 28px; transition: background 0.2s; cursor: none; }
   .btn-contact:hover { background: #00cc7a; }
   .btn-contact svg { fill: #000; width: 18px; height: 18px; }
 
-  /* FOOTER */
+  /* ─── FOOTER ─── */
   footer { background: #060606; border-top: 1px solid #1a1a1a; padding: 60px 60px 40px; }
   .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
   .footer-brand .logo { font-size: 22px; margin-bottom: 14px; display: inline-block; }
   .footer-brand p { color: #777; font-size: 14px; line-height: 1.8; margin-top: 10px; }
   .footer-col h4 { font-size: 15px; font-weight: 700; margin-bottom: 20px; }
-  .footer-col a, .footer-col .f-item { display: block; color: #777; font-size: 14px; margin-bottom: 12px; transition: color 0.2s; }
+  .footer-col a, .footer-col .f-item { display: block; color: #777; font-size: 14px; margin-bottom: 12px; transition: color 0.2s; cursor: none; }
   .footer-col a:hover { color: #00e68a; }
   .footer-connect { display: flex; align-items: center; gap: 10px; color: #00e68a !important; }
   .footer-connect svg { fill: #00e68a; width: 15px; height: 15px; flex-shrink: 0; }
@@ -130,12 +259,41 @@
     .services-grid { grid-template-columns: 1fr; }
     .footer-grid { grid-template-columns: 1fr; }
     footer { padding: 40px 20px; }
+    #discord-server-float { bottom: 16px; right: 16px; padding: 10px 14px; font-size: 12px; }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ─── CUSTOM CURSOR ─── -->
+<div id="cursor-outer"></div>
+<div id="cursor-inner"></div>
+<div id="cursor-trail"></div>
+
+<!-- ─── LOADING SCREEN ─── -->
+<div id="loader">
+  <div class="loader-particles" id="loaderParticles"></div>
+  <div class="loader-logo">Candriyoe<span class="dot">.</span></div>
+  <div class="loader-tagline">Web Developer &amp; Digital Solutions</div>
+  <div class="loader-bar-wrap">
+    <div class="loader-bar" id="loaderBar"></div>
+  </div>
+  <div class="loader-percent" id="loaderPercent">0%</div>
+</div>
+
+<!-- ─── FLOATING DISCORD SERVER BUTTON ─── -->
+<a id="discord-server-float" href="https://discord.gg/HfruHk4g" target="_blank" rel="noopener noreferrer">
+  <svg class="dsf-icon" viewBox="0 0 24 24">
+    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.003.02.011.04.027.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 13.298 13.298 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.1.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+  </svg>
+  <div>
+    <span class="dsf-label">Join Server</span>
+    <span class="dsf-name">ShotDevs</span>
+    <span class="dsf-enquiry">Any enquiries welcome</span>
+  </div>
+</a>
+
+<!-- ─── NAV ─── -->
 <nav>
   <a href="#hero" class="logo">Candriyoe<span class="dot">.</span></a>
   <div class="nav-links">
@@ -150,7 +308,7 @@
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ─── HERO ─── -->
 <section id="hero">
   <canvas class="hero-canvas" id="heroCanvas"></canvas>
   <div class="hero-content">
@@ -161,7 +319,7 @@
     <h1 class="hero">Hi, I'm <span>Candriyoe</span></h1>
     <p class="hero-sub">Web Developer &amp; Digital Solutions</p>
     <p class="hero-desc">Crafting stunning websites and powerful web applications</p>
-    <div class="hero-exp-badge"> 4 Years of Experience &nbsp;·&nbsp; Lowest Prices &nbsp;·&nbsp; Professional Quality</div>
+    <div class="hero-exp-badge">4 Years of Experience &nbsp;·&nbsp; Lowest Prices &nbsp;·&nbsp; Professional Quality</div>
     <div class="hero-buttons">
       <a href="#services" class="btn-primary">
         View Services
@@ -280,7 +438,7 @@
       blitz.exe
     </div>
     <p>Hit me up on Discord to discuss your next project or just say hi! Affordable prices, professional results.</p>
-    <a href="https://discord.com" class="btn-contact">
+    <a href="https://discord.com/users/blitz.exe" class="btn-contact">
       <svg viewBox="0 0 24 24" fill="#000"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.003.02.011.04.027.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 13.298 13.298 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.1.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
       Message blitz.exe on Discord
     </a>
@@ -303,10 +461,11 @@
     </div>
     <div class="footer-col">
       <h4>Connect</h4>
-      <p class="footer-connect f-item">
+      <a href="https://discord.gg/HfruHk4g" target="_blank" rel="noopener noreferrer" class="footer-connect f-item">
         <svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.003.02.011.04.027.053a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 13.298 13.298 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.1.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-        blitz.exe
-      </p>
+        ShotDevs – discord.gg/HfruHk4g
+      </a>
+      <span class="f-item" style="color:#777;">blitz.exe</span>
     </div>
   </div>
   <div class="footer-bottom">
@@ -315,6 +474,77 @@
 </footer>
 
 <script>
+/* ─── CUSTOM CURSOR ─── */
+const outer = document.getElementById('cursor-outer');
+const inner = document.getElementById('cursor-inner');
+const trail = document.getElementById('cursor-trail');
+let mx = 0, my = 0, tx = 0, ty = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  inner.style.left = mx + 'px'; inner.style.top = my + 'px';
+  outer.style.left = mx + 'px'; outer.style.top = my + 'px';
+});
+
+function animTrail() {
+  tx += (mx - tx) * 0.18;
+  ty += (my - ty) * 0.18;
+  trail.style.left = tx + 'px'; trail.style.top = ty + 'px';
+  requestAnimationFrame(animTrail);
+}
+animTrail();
+
+/* ─── LOADER PARTICLES ─── */
+const particleContainer = document.getElementById('loaderParticles');
+for (let i = 0; i < 30; i++) {
+  const p = document.createElement('div');
+  p.className = 'lp';
+  p.style.left = Math.random() * 100 + '%';
+  p.style.bottom = '-10px';
+  p.style.animationDuration = (Math.random() * 6 + 4) + 's';
+  p.style.animationDelay = (Math.random() * 4) + 's';
+  p.style.width = p.style.height = (Math.random() * 3 + 1) + 'px';
+  particleContainer.appendChild(p);
+}
+
+/* ─── LOADING BAR ─── */
+const loaderEl = document.getElementById('loader');
+const bar = document.getElementById('loaderBar');
+const pct = document.getElementById('loaderPercent');
+let progress = 0;
+const totalTime = 3200; // ~3.2 seconds
+const steps = 100;
+const stepTime = totalTime / steps;
+
+// Eased progress — starts fast, slows in middle, bursts at end
+function getNextIncrement(current) {
+  if (current < 30) return Math.random() * 3 + 1.5;
+  if (current < 60) return Math.random() * 1.5 + 0.5;
+  if (current < 85) return Math.random() * 2 + 1;
+  if (current < 95) return Math.random() * 0.8 + 0.3;
+  return 1.2;
+}
+
+function tickLoader() {
+  if (progress >= 100) {
+    bar.style.width = '100%';
+    pct.textContent = '100%';
+    setTimeout(() => {
+      loaderEl.classList.add('hidden');
+      document.body.style.overflow = '';
+    }, 500);
+    return;
+  }
+  progress = Math.min(100, progress + getNextIncrement(progress));
+  bar.style.width = progress.toFixed(1) + '%';
+  pct.textContent = Math.floor(progress) + '%';
+  setTimeout(tickLoader, stepTime + (Math.random() * 30 - 15));
+}
+
+document.body.style.overflow = 'hidden';
+setTimeout(tickLoader, 200);
+
+/* ─── HERO CANVAS ─── */
 const canvas = document.getElementById('heroCanvas');
 const ctx = canvas.getContext('2d');
 let nodes = [], W, H;
